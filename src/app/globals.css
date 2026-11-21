@@ -1,0 +1,6 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+:root{--bg:#F8F5FF;--card:#FFFFFF;--ink:#1A1030;--line:rgba(26,16,48,.12);--accent:#7C3AED;--on:#FFFFFF}
+.dark{--bg:#07040F;--card:#120B22;--ink:#EFE9FF;--line:rgba(162,123,255,.18);--accent:#A27BFF;--on:#0B0518}
+body{background:var(--bg);color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
