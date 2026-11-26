@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { Plus, Heart, ChevronDown, LogOut } from "lucide-react";
+import { Plus, Heart, ChevronDown, LogOut, Gift } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import Feed from "./Feed"; import Stories from "./Stories"; import Notes from "./Notes"; import ThemeToggle from "./ThemeToggle";
 export default function HomeView({ userId }: { userId: string }) {
@@ -16,5 +16,30 @@ export default function HomeView({ userId }: { userId: string }) {
         <Link href="/ayarlar" onClick={() => setMenu(false)} className={t}>Ayarlar</Link>
         <div className="flex items-center justify-between border-t border-line px-3 pt-2 text-sm">Tema<ThemeToggle /></div><button className={`${t} flex items-center gap-2`} onClick={out}><LogOut size={16} />Çıkış yap</button></div>}</div>
     <div className="hidden gap-5 py-5 font-semibold md:flex">{(["foryou", "following"] as const).map((k) => <button key={k} onClick={() => setTab(k)} className={tab === k ? "" : "opacity-50"}>{k === "foryou" ? "Senin için" : "Takip ettiklerin"}</button>)}</div>
+    
+<Link
+  href="/dogum-gunu"
+  className="group mb-5 flex items-center justify-between overflow-hidden rounded-2xl border border-pink-400/20 bg-gradient-to-r from-purple-600/20 via-pink-500/15 to-purple-600/20 p-4 transition-all duration-300 hover:border-pink-400/50 hover:shadow-lg hover:shadow-pink-500/10"
+>
+  <div className="flex items-center gap-3">
+    <div className="rounded-xl bg-pink-500/15 p-3 text-pink-400 transition group-hover:scale-110">
+      <Gift size={24} />
+    </div>
+
+    <div>
+      <p className="font-bold text-pink-400">
+        Özel Birinin Özel Bir Günü! 🎂
+      </p>
+      <p className="text-xs opacity-60">
+        Senin için hazırlanmış özel bir sayfa var.
+      </p>
+    </div>
+  </div>
+
+  <span className="text-xl text-pink-400 transition group-hover:translate-x-1">
+    →
+  </span>
+</Link>
+
     <Notes userId={userId} /><Stories userId={userId} /><Feed userId={userId} tab={tab} /></div>);
 }
