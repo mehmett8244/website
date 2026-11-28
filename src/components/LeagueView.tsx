@@ -65,7 +65,6 @@ export default function LeagueView() {
 
   useEffect(() => { void load(); }, [load]);
 
-  const mine = stats.find((x) => x.user_id === userId);
   const myXp = myTotalXp;
   const level = getLevel(myXp);
   const position = stats.findIndex((x) => x.user_id === userId) + 1;
