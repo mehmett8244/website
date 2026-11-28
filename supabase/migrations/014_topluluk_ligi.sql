@@ -318,14 +318,14 @@ values
 on conflict (code) do nothing;
 
 -- Migration öncesinde gerekli eşiklere ulaşmış kullanıcıların başarımlarını da tanımla.
-do $
+do $league$
 declare p record;
 begin
   for p in select id from public.profiles loop
     perform public.evaluate_league_achievements(p.id);
   end loop;
 end;
-$;
+$league$;
 
 -- Yalnızca yöneticiler başka kullanıcılara özel başarım verebilir.
 create or replace function public.admin_award_achievement(p_user_id uuid, p_code text)
