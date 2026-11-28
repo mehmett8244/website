@@ -257,7 +257,7 @@ begin
   where id = new.post_id and not is_draft;
 
   if post_author is not null and post_author <> new.user_id then
-    perform public.apply_league_xp(post_author, 1, 'Gönderine beğeni geldi', 'like:' || new.post_id::text || ':' || new.user_id::text || ':created');
+    perform public.apply_league_xp(post_author, 1, 'Gönderine beğeni geldi', 'like:' || gen_random_uuid()::text || ':created');
     perform public.evaluate_league_achievements(post_author);
   end if;
   return new;
@@ -278,7 +278,7 @@ begin
   where id = old.post_id;
 
   if post_author is not null and post_author <> old.user_id then
-    perform public.apply_league_xp(post_author, -1, 'Beğeni geri çekildi', 'like:' || old.post_id::text || ':' || old.user_id::text || ':deleted');
+    perform public.apply_league_xp(post_author, -1, 'Beğeni geri çekildi', 'like:' || gen_random_uuid()::text || ':deleted');
   end if;
   return old;
 end;
