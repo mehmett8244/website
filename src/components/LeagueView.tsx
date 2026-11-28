@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Award, Crown, Flame, History, Medal, RefreshCw, Sparkles, Trophy, Zap } from "lucide-react";
+import { Award, Crown, History, RefreshCw, Sparkles, Trophy, Zap } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import Avatar from "./Avatar";
 
@@ -30,6 +30,7 @@ function dateLabel(value: string) {
 export default function LeagueView() {
   const sb = useMemo(() => supabase(), []);
   const [userId, setUserId] = useState("");
+  const [myTotalXp, setMyTotalXp] = useState(0);
   const [stats, setStats] = useState<Stat[]>([]);
   const [earned, setEarned] = useState<Earned[]>([]);
   const [history, setHistory] = useState<Transaction[]>([]);
@@ -63,7 +64,7 @@ export default function LeagueView() {
   useEffect(() => { void load(); }, [load]);
 
   const mine = stats.find((x) => x.user_id === userId);
-  const myXp = Number(mine?.total_xp ?? 0);
+  const myXp = myTotalXp;
   const level = getLevel(myXp);
   const position = stats.findIndex((x) => x.user_id === userId) + 1;
   const podium = stats.slice(0, 3);
@@ -101,7 +102,7 @@ export default function LeagueView() {
                 </div>
                 <div className="flex items-center gap-3 rounded-xl bg-[#35283D] px-4 py-3">
                   <Trophy className="text-[#D28AFF]" size={25} />
-                  <div><p className="text-xs text-white/50">Genel sıralaman</p><p className="text-xl font-bold">{position ? `#${position}` : "—"}</p></div>
+                  <div><p className="text-xs text-white/50">Genel sıralaman</p><p className="text-xl font-bold">{position ? `#${position}` : stats.length >= 100 ? "100+" : "—"}</p></div>
                 </div>
               </div>
               <div className="mt-5 h-2.5 overflow-hidden rounded-full bg-white/10">
