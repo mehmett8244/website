@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Home, Search, Heart, PlusSquare, LogOut, Send, Shield, Settings } from "lucide-react";
+import { Home, Search, Heart, PlusSquare, LogOut, Send, Shield, Settings, Trophy } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import Logo from "./Logo"; import Avatar from "./Avatar"; import ThemeToggle from "./ThemeToggle"; import Suggestions from "./Suggestions";
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -17,7 +17,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => { if (!me) return; const beat = () => sb.from("profiles").update({ last_seen: new Date().toISOString() }).eq("id", me.id).then(); beat(); const i = setInterval(beat, 60000); return () => clearInterval(i); }, [me?.id]);
   if (auth) return <>{children}</>;
   const items = [{ h: "/", l: "Ana Sayfa", i: <Home /> }, { h: "/ara", l: "Ara", i: <Search /> }, { h: "/mesajlar", l: "Mesajlar", i: <Send />, dot: dm > 0 }, { h: "/bildirimler", l: "Bildirimler", i: <Heart />, dot: unread > 0 },
-    { h: "/olustur", l: "Oluştur", i: <PlusSquare /> }, { h: me ? `/${me.username}` : "/", l: "Profil", i: <Avatar url={me?.avatar_url} name={me?.username ?? "?"} size={26} /> }];
+    { h: "/olustur", l: "Oluştur", i: <PlusSquare /> }, { h: "/lig", l: "Lig", i: <Trophy /> }, { h: me ? `/${me.username}` : "/", l: "Profil", i: <Avatar url={me?.avatar_url} name={me?.username ?? "?"} size={26} /> }];
   if (me && (me.role !== "user" || me.ranks?.can_moderate)) items.push({ h: "/yonetim", l: "Yönetim", i: <Shield /> });
   const out = async () => { await sb.auth.signOut(); location.href = "/giris"; };
   return (<div className="mx-auto flex max-w-[1180px]">
