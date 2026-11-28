@@ -48,14 +48,16 @@ export default function LeagueView() {
     }
     setUserId(auth.user.id);
 
-    const [leaderboard, achievements, transactions] = await Promise.all([
+    const [leaderboard, ownStats, achievements, transactions] = await Promise.all([
       sb.from("league_stats").select("user_id,total_xp,profiles(username,avatar_url)").order("total_xp", { ascending: false }).order("user_id", { ascending: true }).limit(100),
+      sb.from("league_stats").select("total_xp").eq("user_id", auth.user.id).maybeSingle(),
       sb.from("user_achievements").select("awarded_at,achievements(name,description,icon,xp_reward)").eq("user_id", auth.user.id).order("awarded_at", { ascending: false }),
       sb.from("xp_transactions").select("id,amount,reason,created_at").eq("user_id", auth.user.id).order("created_at", { ascending: false }).limit(8)
     ]);
 
     if (leaderboard.error) setError("Lig sıralaması yüklenemedi: " + leaderboard.error.message);
     else setStats((leaderboard.data as unknown as Stat[]) ?? []);
+    setMyTotalXp(Number(ownStats.data?.total_xp ?? 0));
     setEarned((achievements.data as unknown as Earned[]) ?? []);
     setHistory((transactions.data as Transaction[]) ?? []);
     setLoading(false);
